@@ -4,7 +4,11 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/** Непрерывный отрезок одной смены с одним видом оплаты. */
+/** Непрерывный отрезок одной смены с одним видом оплаты.
+ * @param start начало включительно
+ * @param end конец исключительно
+ * @param type вид оплаты
+ */
 public record TimeSegment(LocalDateTime start, LocalDateTime end, TimeType type)
         implements WorkPeriod {
     /** Проверяет корректность границ и вида времени. */

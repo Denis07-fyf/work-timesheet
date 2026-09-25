@@ -1,6 +1,8 @@
 package ru.vsu.oop.timesheet;
 
-/** Уникальный номер сотрудника. Record предоставляет согласованные equals и hashCode. */
+/** Уникальный номер сотрудника. Record предоставляет согласованные equals и hashCode.
+ * @param value положительный номер
+ */
 public record EmployeeId(int value) {
     /** Проверяет положительность номера. */
     public EmployeeId {

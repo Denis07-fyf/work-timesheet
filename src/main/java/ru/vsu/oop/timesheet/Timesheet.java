@@ -21,7 +21,9 @@ public final class Timesheet {
     private final Map<EmployeeId, List<Shift>> shifts = new HashMap<>();
     private final Set<LocalDate> holidays;
 
-    /** @param holidays заданные извне праздничные даты; набор копируется */
+    /** Создаёт пустой табель с заданным календарём праздников.
+     * @param holidays заданные извне праздничные даты; набор копируется
+     */
     public Timesheet(Set<LocalDate> holidays) {
         this.holidays = Set.copyOf(holidays);
     }
@@ -39,7 +41,9 @@ public final class Timesheet {
         shifts.put(employee.id(), new ArrayList<>());
     }
 
-    /** @return снимок списка зарегистрированных сотрудников */
+    /** Возвращает зарегистрированных сотрудников.
+     * @return снимок списка зарегистрированных сотрудников
+     */
     public List<Employee> employees() {
         return List.copyOf(employees.values());
     }
@@ -61,7 +65,8 @@ public final class Timesheet {
         current.add(shift);
     }
 
-    /** @param id номер сотрудника
+    /** Возвращает сохранённые смены сотрудника.
+     * @param id номер сотрудника
      * @return неизменяемый снимок его смен
      * @throws TimesheetException если сотрудник неизвестен
      */

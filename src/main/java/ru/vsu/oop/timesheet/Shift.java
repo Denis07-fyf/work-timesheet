@@ -4,7 +4,11 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/** Смена с пометкой о назначенной сверхурочной работе. */
+/** Смена с пометкой о назначенной сверхурочной работе.
+ * @param start начало включительно
+ * @param end конец исключительно
+ * @param overtime признак назначенной сверхурочной работы
+ */
 public record Shift(LocalDateTime start, LocalDateTime end, boolean overtime) implements WorkPeriod {
     /** Проверяет порядок дат и минутную точность границ. */
     public Shift {

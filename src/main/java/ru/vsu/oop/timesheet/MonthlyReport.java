@@ -5,7 +5,12 @@ import java.time.YearMonth;
 import java.util.Map;
 import java.util.Objects;
 
-/** Неизменяемые итоги по одному сотруднику за календарный месяц. */
+/** Неизменяемые итоги по одному сотруднику за календарный месяц.
+ * @param employee сотрудник
+ * @param month отчётный месяц
+ * @param byType длительность по каждому виду
+ * @param paymentKopecks общая оплата в копейках
+ */
 public record MonthlyReport(Employee employee, YearMonth month,
                             Map<TimeType, Duration> byType, long paymentKopecks) {
     /** Создаёт защитную копию итогов и проверяет сумму оплаты. */
@@ -18,7 +23,9 @@ public record MonthlyReport(Employee employee, YearMonth month,
         }
     }
 
-    /** @return всё отработанное время за месяц */
+    /** Вычисляет суммарную длительность всех видов времени.
+     * @return всё отработанное время за месяц
+     */
     public Duration totalDuration() {
         return byType.values().stream().reduce(Duration.ZERO, Duration::plus);
     }

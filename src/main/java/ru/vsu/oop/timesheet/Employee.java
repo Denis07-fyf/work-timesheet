@@ -2,7 +2,11 @@ package ru.vsu.oop.timesheet;
 
 import java.util.Objects;
 
-/** Сотрудник и его базовая ставка в копейках за час. */
+/** Сотрудник и его базовая ставка в копейках за час.
+ * @param id уникальный номер
+ * @param name непустое имя
+ * @param hourlyRateKopecks неотрицательная ставка
+ */
 public record Employee(EmployeeId id, String name, long hourlyRateKopecks) {
     /** Проверяет данные сотрудника. */
     public Employee {

@@ -5,12 +5,18 @@ import java.time.LocalDateTime;
 
 /** Интервал работы: исходная смена или её классифицированный отрезок. */
 public sealed interface WorkPeriod permits Shift, TimeSegment {
-    /** @return начало интервала включительно */
+    /** Возвращает левую границу интервала.
+     * @return начало интервала включительно
+     */
     LocalDateTime start();
 
-    /** @return конец интервала исключительно */
+    /** Возвращает правую границу интервала.
+     * @return конец интервала исключительно
+     */
     LocalDateTime end();
 
-    /** @return длительность интервала */
+    /** Вычисляет время между границами.
+     * @return длительность интервала
+     */
     Duration duration();
 }
