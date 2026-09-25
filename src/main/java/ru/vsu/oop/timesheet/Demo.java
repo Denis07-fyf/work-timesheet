@@ -41,7 +41,7 @@ public final class Demo {
                     format(part.end()), part.type(), part.duration().toMinutes());
         }
 
-        List<WorkPeriod> periods = List.of(nightShift, sheet.split(nightShift).getFirst());
+        List<WorkPeriod> periods = List.of(nightShift, sheet.split(nightShift).get(0));
         System.out.println("\nПолиморфный расчёт длительности смены и её отрезка:");
         for (var period : periods) {
             System.out.println("  " + period.getClass().getSimpleName() + ": "

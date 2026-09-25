@@ -86,7 +86,7 @@ public final class Timesheet {
             next = earlier(next, followingBoundary(cursor, LocalTime.of(22, 0)));
             var type = classify(cursor, shift.overtime());
             if (!result.isEmpty()) {
-                var last = result.getLast();
+                var last = result.get(result.size() - 1);
                 if (last.type() == type && last.end().equals(cursor)) {
                     result.set(result.size() - 1, new TimeSegment(last.start(), next, type));
                 } else {
