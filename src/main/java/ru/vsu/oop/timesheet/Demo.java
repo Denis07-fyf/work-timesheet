@@ -1,7 +1,9 @@
 package ru.vsu.oop.timesheet;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -69,6 +71,7 @@ public final class Demo {
         } catch (TimesheetException exception) {
             System.out.println("\nПроверка ошибки: " + exception.getMessage());
         }
+        showAdvanced();
     }
 
     private static String format(LocalDateTime time) {
@@ -83,5 +86,32 @@ public final class Demo {
                                int dayEnd, int hourEnd, int minuteEnd, boolean overtime) {
         return new Shift(at(dayStart, hourStart, minuteStart),
                 at(dayEnd, hourEnd, minuteEnd), overtime);
+    }
+
+    private static void showAdvanced() {
+        var zone = ZoneId.of("Europe/Berlin");
+        var employee = new Employee(new EmployeeId(9), "Сотрудник с часовым поясом", 6_000);
+        var sheet = new ZonedTimesheet(employee, zone, Set.of(),
+                Duration.ofHours(8), Duration.ofHours(1));
+        var spring = new ZonedShift(
+                LocalDateTime.of(2026, 3, 28, 22, 0).atZone(zone),
+                LocalDateTime.of(2026, 3, 29, 6, 0).atZone(zone), false);
+        var autumn = new ZonedShift(
+                LocalDateTime.of(2026, 10, 24, 22, 0).atZone(zone),
+                LocalDateTime.of(2026, 10, 25, 6, 0).atZone(zone), false);
+        sheet.addShift(spring);
+        sheet.addShift(autumn);
+        System.out.println("\nПовышенный уровень: перевод часов в Europe/Berlin:");
+        System.out.println("  Весенняя ночь: " + spring.duration().toHours() + " ч., оплата "
+                + sheet.report(YearMonth.of(2026, 3)).paymentKopecks() + " коп.");
+        System.out.println("  Осенняя ночь: " + autumn.duration().toHours() + " ч., оплата "
+                + sheet.report(YearMonth.of(2026, 10)).paymentKopecks() + " коп.");
+        try {
+            sheet.addShift(new ZonedShift(
+                    LocalDateTime.of(2026, 10, 26, 8, 0).atZone(zone),
+                    LocalDateTime.of(2026, 10, 26, 9, 0).atZone(zone), true));
+        } catch (OvertimeLimitException exception) {
+            System.out.println("  Контроль переработки: " + exception.getMessage());
+        }
     }
 }
