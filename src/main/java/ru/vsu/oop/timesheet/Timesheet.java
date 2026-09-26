@@ -1,7 +1,5 @@
 package ru.vsu.oop.timesheet;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -155,19 +153,12 @@ public final class Timesheet {
                     var duration = Duration.between(start, end);
                     totals.merge(segment.type(), duration, Duration::plus);
                     payment = Math.addExact(payment,
-                            pay(segment.type(), duration, employees.get(id).hourlyRateKopecks()));
+                            segment.type().paymentKopecks(duration,
+                                    employees.get(id).hourlyRateKopecks()));
                 }
             }
         }
         return new MonthlyReport(employees.get(id), month, totals, payment);
-    }
-
-    private static long pay(TimeType type, Duration duration, long rate) {
-        return BigDecimal.valueOf(rate)
-                .multiply(type.multiplier())
-                .multiply(BigDecimal.valueOf(duration.toMinutes()))
-                .divide(BigDecimal.valueOf(60), 0, RoundingMode.HALF_UP)
-                .longValueExact();
     }
 
     private TimeType classify(LocalDateTime time, boolean overtime) {
